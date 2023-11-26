@@ -9,8 +9,5 @@
         <module name="my-app" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="ImageEncryption" target="1.5" />
-    </bytecodeTargetLevel>
   </component>
 </project>
