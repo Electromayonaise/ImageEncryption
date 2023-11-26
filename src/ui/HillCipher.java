@@ -219,21 +219,23 @@ public class HillCipher {
         case "1":
           System.out.print("Enter the text to encrypt: ");
           phrase = keyboard.nextLine();
-          encrypt(phrase);
+          System.out.println("Encrypted text: " + encrypt(phrase));
           break;
         case "2":
-          System.out.print("Enter text to decrypt: ");
           File file = new File("src/encrypted.txt");
           BufferedReader br = new BufferedReader(new java.io.FileReader(file));
           phrase = br.readLine();
           if (phrase == null) {
+            System.out.print("Enter text to decrypt: ");
             phrase = keyboard.nextLine();
           }
           decryptedWord = decrypt(phrase);
-
-          LoadImage.base64Decode(decryptedWord);
-          System.out.println("Image decrypted successfully!");
-          System.out.println("Check src/decrypted.png");
+          System.out.println("Decrypted text: " + decryptedWord);
+          if (decryptedWord.length() > 25) {
+            LoadImage.base64Decode(decryptedWord);
+            System.out.println("Image decrypted successfully!");
+            System.out.println("Check src/decrypted.png");
+          }
           break;
         case "3":
           fileWriter = new FileWriter("src/encrypted.txt");
