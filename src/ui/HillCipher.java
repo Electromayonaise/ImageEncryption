@@ -231,7 +231,7 @@ public class HillCipher {
           }
           decryptedWord = decrypt(phrase);
           System.out.println("Decrypted text: " + decryptedWord);
-          if (decryptedWord.length() > 25) {
+          if (decryptedWord.contains("/")) {
             LoadImage.base64Decode(decryptedWord);
             System.out.println("Image decrypted successfully!");
             System.out.println("Check src/decrypted.png");
