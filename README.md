@@ -22,7 +22,7 @@
 </div>
 
 
-## Proposito del proyecto
+## Propósito del proyecto
 
 El propósito de este proyecto será lograr encriptar imágenes que estan en formato base64 mediante el cifrado de Hill usando representacion y multiplicacion de matrices.
 
