@@ -1,5 +1,9 @@
 package ui;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -54,17 +58,16 @@ public class HillCipher {
     return reverseMatrix;
   }
 
-  private static void echoResult(String label, ArrayList<Integer> phrase) {
+  private static String echoResult(ArrayList<Integer> phrase) {
     int i;
-    System.out.print(label);
-
+    StringBuilder result = new StringBuilder();
     for (i = 0; i < phrase.size(); i++) {
-      System.out.print(BASE64_ALPHABET.charAt(phrase.get(i)));
+      result.append(BASE64_ALPHABET.charAt(phrase.get(i)));
     }
-    System.out.println();
+    return result.toString();
   }
 
-  public static void encrypt(String phrase) {
+  public static String encrypt(String phrase) {
     int i;
     int[][] keyMatrix;
     ArrayList<Integer> phraseToNum = new ArrayList<>();
@@ -90,11 +93,11 @@ public class HillCipher {
       phraseEncoded.add(y);
     }
 
-    echoResult("Encoded image: ", phraseEncoded);
     System.out.println("Key matrix: " + Arrays.deepToString(keyMatrix));
+    return echoResult(phraseEncoded);
   }
 
-  public static void decrypt(String phrase) {
+  public static String decrypt(String phrase) {
     int i;
     int[][] keyMatrix, revKeyMatrix;
     ArrayList<Integer> phraseToNum = new ArrayList<>();
@@ -124,22 +127,26 @@ public class HillCipher {
       phraseDecoded.add((revKeyMatrix[1][0] * phraseToNum.get(i) + revKeyMatrix[1][1] * phraseToNum.get(i + 1)) % 64);
     }
 
-    echoResult("Decoded phrase: ", phraseDecoded);
+    return echoResult(phraseDecoded);
   }
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
     menu();
   }
 
-  public static void menu() {
+  public static void menu() throws IOException {
     String opt, phrase;
+    String encryptedWord, decryptedWord;
 
     Scanner keyboard = new Scanner(System.in);
+    FileWriter fileWriter;
     do {
       System.out.println("Hill implementation (2x2) with Base64");
       System.out.println("-------------------------------------");
-      System.out.println("1. Encrypt image (A=0,B=1,...Z=25, a=26, b=27, ..., 9=52, /=62, +=63, ==64)");
+      System.out.println("1. Encrypt Any Text (A=0,B=1,...Z=25, a=26, b=27, ..., 9=52, /=62, +=63, ==64)");
       System.out.println("2. Decrypt image (A=0,B=1,...Z=25, a=26, b=27, ..., 9=52, /=62, +=63, ==64)");
+      System.out.println("3. Encrypt image from folder");
+      System.out.println("4. Remove encrypted.txt");
       System.out.println();
       System.out.println("Any other character to exit");
       System.out.println();
@@ -147,17 +154,48 @@ public class HillCipher {
       opt = keyboard.nextLine();
       switch (opt) {
         case "1":
-          System.out.print("Enter image to encrypt in base64: ");
+          System.out.print("Enter the text to encrypt: ");
           phrase = keyboard.nextLine();
           encrypt(phrase);
           break;
         case "2":
-          System.out.print("Enter phrase to decrypt in base64: ");
-          phrase = keyboard.nextLine();
-          decrypt(phrase);
+          System.out.print("Enter text to decrypt: ");
+          //Validate if exist file encrypted.txt
+          File file = new File("src/encrypted.txt");
+          BufferedReader br = new BufferedReader(new java.io.FileReader(file));
+          phrase = br.readLine();
+          if (phrase == null) {
+            phrase = keyboard.nextLine();
+          }
+          decryptedWord = decrypt(phrase);
+
+          LoadImage.base64Decode(decryptedWord);
+          System.out.println("Image decrypted successfully!");
+          System.out.println("Check src/decrypted.png");
+          break;
+        case "3":
+          fileWriter = new FileWriter("src/encrypted.txt");
+          String textToEncrypt = LoadImage.base64Encode();
+          System.out.println("Encrypting image...");
+          encryptedWord = encrypt(textToEncrypt);
+          System.out.println("""
+              Image encrypted successfully!
+              Check src/encrypted.txt
+              """);
+          fileWriter.write(encryptedWord);
+          fileWriter.close();
+          break;
+        case "4":
+          System.out.println("Removing...");
+          fileWriter = new FileWriter("src/encrypted.txt");
+          fileWriter.write("");
+          fileWriter.close();
           break;
       }
-    } while (opt.equals("1") || opt.equals("2"));
+    } while (opt.equals("1") || opt.equals("2") || opt.equals("3") || opt.equals("4"));
+    fileWriter = new FileWriter("src/encrypted.txt");
+    fileWriter.write("");
+    fileWriter.close();
   }
 }
 
