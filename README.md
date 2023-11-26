@@ -34,3 +34,11 @@ Teniendo en cuenta que el cifrado de Hill es un algoritmo de cifrado simétrico 
 - El cifrado de Hill
   
 Estos conceptos se desarrollan en la documentación.  
+
+Video del funcionamiento del código:  
+
+[<img src="https://i.ibb.co/zF0QCFS/image-2023-11-26-162727379.png" width="70%">](https://youtu.be/n5_Y8mR0qWI?si=cU5IreUGd3A0m2Wf)
+
+Video de la comprobación del correcto decifrado de la imagen: 
+
+[<img src="https://i.ibb.co/NnP3nMt/image-2023-11-26-163112972.png" width="70%">](https://youtu.be/nTssbmG1ZG4?si=LJJ2jd3W2UGjt3R5)
