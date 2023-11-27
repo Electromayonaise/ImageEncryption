@@ -42,7 +42,7 @@ public class HillCipher {
   }
 
   /**
-   * This method checks if the reverse key matrix is valid (matrix mod26 = (1,0,0,1)
+   * This method checks if the reverse key matrix is valid (matrix mod64 = (1,0,0,1)
    * Just for studying purposes
    *
    * @param keyMatrix     Original key matrix 2x2
